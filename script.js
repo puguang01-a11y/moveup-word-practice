@@ -2386,15 +2386,14 @@ const go2Units=[{
 }];
 let book="go",units=goUnits;
 let unit=0,data=[];
-const photoWords=new Set(['pencil','pen','bag','book','eraser','alligator','ant','apple','ball','banana','bear','bat','bathtub','bed','bicycle','bird','board','bread','cake','calculator','calendar','camera','car','cat','chair','cheese','chicken','clock','cloud','coin','comb','computer','cookie','cow','crayon','dinosaur','dog','door','duck','egg','elephant','fan','fish','flower','frog','giraffe','girl','globe','goat','grapes','hat','horse','house','ice-cream','igloo','iguana','ink','jam','jeans','jet','juice','kangaroo','key','kitten','ladybug','lamb','lamp','lemon','lion','lunch-box','map','marker','milk','milkshake','monkey','moon','nest','notebook','nut','octopus','omelet','ostrich','pancake','panda','paper-clip','pasta','peach','pear','pencil-case','pencil-sharpener','pizza','popcorn','puzzle','quilt','rabbit','radio','refrigerator','rice','robot','rocket','ruler','salad','sandwich','seesaw','sofa','steak','stew','stove','sun','table','tea','teapot','teddy-bear','telephone','tiger','train','tree','bib','baseball','box','candy','candy-bar','cell-phone','cereal','cd','desk','firefighters','doll','at-home','at-the-library','at-school','at-the-park','at-the-store','at-the-zoo','fox','volcano','zebra','violin','jump-rope','kite','yo-yo','umbrella','sister','brother','grandfather','grandmother','father','mother','do-homework','eat-breakfast','wash-my-face','brush-my-teeth','fly-a-kite','ride-a-bicycle','dentist','police-officer','doctor','farm','vest','zipper','tv','gorilla','soda','video-game','umpire','queen','engineer','farmer','salesclerk','teacher','pilot','yak','insect','student','peaches','pancakes','hamburgers','hot-chocolate','sink','tissue','wallet','yogurt','rock','music-player','key-chain','train-pass','net','puddle','poster','wastebasket','cook','sing','paint','read','smile','wink','dance','swim','boy','baby-brother','baby-sister','man','woman','uncle','nurse','taxi-driver','bounce-a-ball','ride-a-pony','play-the-piano','do-a-magic-trick','play-hopscotch','play-with-a-yo-yo','do-a-cartwheel','do-a-somersault','get-up','comb-my-hair','get-dressed','eat-dinner','talk-on-the-phone','watch-tv','study-english','run','office-worker','yarn','x-ray','workbook','window','picture','comic-book']);
-const photoAliases={bears:'bear',birds:'bird',calendars:'calendar',cats:'cat',cds:'cd','cell-phones':'cell-phone',clocks:'clock',clouds:'cloud',computers:'computer',cows:'cow',crayons:'crayon',dogs:'dog',doors:'door',ducks:'duck',elephants:'elephant',flowers:'flower',frogs:'frog',engineers:'engineer',farmers:'farmer',salesclerks:'salesclerk',teachers:'teacher',pilots:'pilot',dentists:'dentist',students:'student','sing-a-song':'sing',singing:'sing',swimming:'swim',dancing:'dance',reading:'read',cooking:'cook',painting:'paint'};
+const photoAliases={'sing-a-song':'sing',singing:'sing',swimming:'swim',dancing:'dance',reading:'read',cooking:'cook',painting:'paint',running:'run','take-a-bath':'bathtub',watch:'watch-tv'};
 function bindImageFallbacks(root){
     root.querySelectorAll('img[data-emoji]').forEach(img=>{
         img.addEventListener('error',()=>{
             const fallback=document.createElement('span');
             fallback.className='emoji-fallback';
             fallback.setAttribute('aria-hidden','true');
-            fallback.textContent=img.dataset.emoji||'🔤';
+            fallback.textContent=img.dataset.emoji||'\u{1F524}';
             img.replaceWith(fallback);
         },{once:true});
     });
@@ -2402,7 +2401,7 @@ function bindImageFallbacks(root){
 function imagePath(word){
     const slug=word.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     const imageSlug=photoAliases[slug]||slug;
-    return 'assets/words/'+imageSlug+(photoWords.has(imageSlug)?'.webp':'.svg')
+    return 'assets/words/'+imageSlug+'.webp'
 }
 function practiceQuestionCount(){
     return Math.min(16,data.length)
