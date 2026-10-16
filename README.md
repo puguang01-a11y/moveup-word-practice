@@ -1,6 +1,6 @@
 # Move Up Academy · Word Lab
 
-听音选四图词汇练习。包含 Let’s Begin 1、Let’s Begin 2、Let’s Go 1、Let’s Go 2。
+听音选四图词汇练习。包含 Let’s Begin 1、Let’s Begin 2、Let’s Go 1、Let’s Go 2，以及 Let’s Go 3–6（Fifth Edition）。
 
 ## 运行
 
@@ -18,14 +18,11 @@
 
 工程师修改后，请通过提交或 PR 保存，并告知协作者。不要把密码、访问令牌或学生个人数据写进代码。
 
-Let’s Go 3 (Fifth Edition) is also available in the same listening and picture-choice activities.
+## 词库来源 / Vocabulary sources
 
-Let’s Go 4 (Fifth Edition) is also available in the same listening and picture-choice activities.
-
-Let’s Go 4 (Fifth Edition) is also available in the same listening and picture-choice activities.
-
-Let’s Go 5 (Fifth Edition) is also available in the same listening and picture-choice activities.
-
-Let’s Go 5 (Fifth Edition) is also available in the same listening and picture-choice activities.
-
-Let’s Go 6 (Fifth Edition) is also available in the same listening and picture-choice activities.
+- Let’s Begin 1–2 与 Let’s Go 1–2：已审核的原始词库（script.js）。
+- Let’s Go 3–6（Fifth Edition）：按 Let’s Go 1–2 的方式，以教材 Teacher and Student Card List（词卡表）为准，并参考 Syllabus 与 WordList 整理；与 Let’s Go 1–2 一致，不含拼读词和指令句，每单元约 10–20 个词，难以用图片表示的词汇已剔除，数据在 book3-data.js 至 book6-data.js。
+- 词条分类（group）：教材核心、本单元拼读、构词学习（Word study）。
+- 图片：assets/words/ 中为真实照片（WebP）；Let’s Go 3–6 中尚无照片的词汇暂时显示 emoji。
+- 教材 ZIP 文件与 tmp/ 仅用于整理词库，请勿提交到仓库。
+- 推送前运行 node tools/check-images.cjs 检查图片：Let’s Begin 1–2 和 Let’s Go 1–2 缺图会报错；加 --strict 则所有册缺图都报错，加 --list 列出缺图词汇。

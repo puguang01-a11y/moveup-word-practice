@@ -23,12 +23,7 @@ const go3Units = [
       {word:'push pins',zh:'图钉',emoji:'📌',group:'教材核心'},
       {word:'paint brushes',zh:'画笔',emoji:'🖌️',group:'教材核心'},
       {word:'staplers',zh:'订书机',emoji:'📎',group:'教材核心'},
-      {word:'black',zh:'黑色',emoji:'⬛',group:'拼读词汇'},
-      {word:'blue',zh:'蓝色',emoji:'🟦',group:'拼读词汇'},
-      {word:'glass',zh:'玻璃杯',emoji:'🥛',group:'拼读词汇'},
-      {word:'plate',zh:'盘子',emoji:'🍽️',group:'拼读词汇'},
-      {word:'plant',zh:'植物',emoji:'🪴',group:'拼读词汇'}
-    ]
+                                  ]
   },
   {
     title: 'Clothing',
@@ -54,13 +49,7 @@ const go3Units = [
       {word:'pajamas',zh:'睡衣',emoji:'🌙',group:'教材核心'},
       {word:'slippers',zh:'拖鞋',emoji:'🥿',group:'教材核心'},
       {word:'boots',zh:'靴子',emoji:'🥾',group:'教材核心'},
-      {word:'brown',zh:'棕色',emoji:'🟫',group:'拼读词汇'},
-      {word:'bread',zh:'面包',emoji:'🍞',group:'拼读词汇'},
-      {word:'green',zh:'绿色',emoji:'🟩',group:'拼读词汇'},
-      {word:'grapes',zh:'葡萄',emoji:'🍇',group:'拼读词汇'},
-      {word:'pretty',zh:'漂亮的',emoji:'🌷',group:'拼读词汇'},
-      {word:'prune',zh:'西梅',emoji:'🫐',group:'拼读词汇'}
-    ]
+                                        ]
   },
   {
     title: 'Places',
@@ -72,10 +61,7 @@ const go3Units = [
       {word:'art room',zh:'美术教室',emoji:'🎨',group:'教材核心'},
       {word:'lunchroom',zh:'食堂',emoji:'🍽️',group:'教材核心'},
       {word:'office',zh:'办公室',emoji:'🏢',group:'教材核心'},
-      {word:'across from',zh:'在……对面',emoji:'↔️',group:'教材核心'},
-      {word:'between',zh:'在……之间',emoji:'↔️',group:'教材核心'},
-      {word:'next to',zh:'在……旁边',emoji:'➡️',group:'教材核心'},
-      {word:'clinic',zh:'诊所',emoji:'🏥',group:'教材核心'},
+                        {word:'clinic',zh:'诊所',emoji:'🏥',group:'教材核心'},
       {word:'repair shop',zh:'修理店',emoji:'🔧',group:'教材核心'},
       {word:'factory',zh:'工厂',emoji:'🏭',group:'教材核心'},
       {word:'store',zh:'商店',emoji:'🏪',group:'教材核心'},
@@ -86,13 +72,7 @@ const go3Units = [
       {word:'by bus',zh:'乘公交车',emoji:'🚌',group:'教材核心'},
       {word:'by taxi',zh:'乘出租车',emoji:'🚕',group:'教材核心'},
       {word:'by train',zh:'乘火车',emoji:'🚆',group:'教材核心'},
-      {word:'class',zh:'班级',emoji:'👩‍🏫',group:'拼读词汇'},
-      {word:'clock',zh:'钟',emoji:'🕒',group:'拼读词汇'},
-      {word:'flower',zh:'花',emoji:'🌼',group:'拼读词汇'},
-      {word:'fly',zh:'飞；苍蝇',emoji:'🪰',group:'拼读词汇'},
-      {word:'sleep',zh:'睡觉',emoji:'😴',group:'拼读词汇'},
-      {word:'slow',zh:'慢的',emoji:'🐢',group:'拼读词汇'}
-    ]
+                                        ]
   },
   {
     title: 'Occupations',
@@ -114,27 +94,13 @@ const go3Units = [
       {word:'make things',zh:'制作东西',emoji:'🛠️',group:'教材核心'},
       {word:'take pictures',zh:'拍照',emoji:'📸',group:'教材核心'},
       {word:'use a computer',zh:'使用电脑',emoji:'💻',group:'教材核心'},
-      {word:'farmer',zh:'农民',emoji:'🧑‍🌾',group:'教材核心'},
-      {word:'farm',zh:'农场',emoji:'🚜',group:'教材核心'},
-      {word:'grow',zh:'种植；生长',emoji:'🌱',group:'教材核心'},
-      {word:'crab',zh:'螃蟹',emoji:'🦀',group:'拼读词汇'},
-      {word:'crocodile',zh:'鳄鱼',emoji:'🐊',group:'拼读词汇'},
-      {word:'friends',zh:'朋友',emoji:'🧑‍🤝‍🧑',group:'拼读词汇'},
-      {word:'frog',zh:'青蛙',emoji:'🐸',group:'拼读词汇'}
-    ]
+                                              ]
   },
   {
     title: 'Activities',
     zh: '活动',
     words: [
-      {word:'Sunday',zh:'星期日',emoji:'📅',group:'教材核心'},
-      {word:'Monday',zh:'星期一',emoji:'📅',group:'教材核心'},
-      {word:'Tuesday',zh:'星期二',emoji:'📅',group:'教材核心'},
-      {word:'Wednesday',zh:'星期三',emoji:'📅',group:'教材核心'},
-      {word:'Thursday',zh:'星期四',emoji:'📅',group:'教材核心'},
-      {word:'Friday',zh:'星期五',emoji:'📅',group:'教材核心'},
-      {word:'Saturday',zh:'星期六',emoji:'📅',group:'教材核心'},
-      {word:'art class',zh:'美术课',emoji:'🎨',group:'教材核心'},
+                                                {word:'art class',zh:'美术课',emoji:'🎨',group:'教材核心'},
       {word:'English class',zh:'英语课',emoji:'🔤',group:'教材核心'},
       {word:'music class',zh:'音乐课',emoji:'🎵',group:'教材核心'},
       {word:'math class',zh:'数学课',emoji:'➗',group:'教材核心'},
@@ -146,11 +112,7 @@ const go3Units = [
       {word:'go shopping',zh:'去购物',emoji:'🛍️',group:'教材核心'},
       {word:'play video games',zh:'玩电子游戏',emoji:'🎮',group:'教材核心'},
       {word:'practice the piano',zh:'练钢琴',emoji:'🎹',group:'教材核心'},
-      {word:'draw',zh:'画画',emoji:'✏️',group:'拼读词汇'},
-      {word:'drum',zh:'鼓',emoji:'🥁',group:'拼读词汇'},
-      {word:'train',zh:'火车',emoji:'🚆',group:'拼读词汇'},
-      {word:'tree',zh:'树',emoji:'🌳',group:'拼读词汇'}
-    ]
+                            ]
   },
   {
     title: 'What Time Is It?',
@@ -160,21 +122,13 @@ const go3Units = [
       {word:'three thirty',zh:'三点半',emoji:'🕞',group:'教材核心'},
       {word:'three forty-five',zh:'三点四十五分',emoji:'🕓',group:'教材核心'},
       {word:'four o’clock',zh:'四点整',emoji:'🕓',group:'教材核心'},
-      {word:'always',zh:'总是',emoji:'🔁',group:'教材核心'},
-      {word:'usually',zh:'通常',emoji:'🔄',group:'教材核心'},
-      {word:'sometimes',zh:'有时',emoji:'🔁',group:'教材核心'},
-      {word:'never',zh:'从不',emoji:'🚫',group:'教材核心'},
-      {word:'play tennis',zh:'打网球',emoji:'🎾',group:'教材核心'},
+                              {word:'play tennis',zh:'打网球',emoji:'🎾',group:'教材核心'},
       {word:'read e-mail',zh:'读电子邮件',emoji:'📧',group:'教材核心'},
       {word:'do gymnastics',zh:'做体操',emoji:'🤸',group:'教材核心'},
       {word:'study English',zh:'学习英语',emoji:'📚',group:'教材核心'},
       {word:'do homework',zh:'做作业',emoji:'✏️',group:'教材核心'},
       {word:'practice karate',zh:'练空手道',emoji:'🥋',group:'教材核心'},
-      {word:'swim',zh:'游泳',emoji:'🏊',group:'拼读词汇'},
-      {word:'swings',zh:'秋千',emoji:'🛝',group:'拼读词汇'},
-      {word:'student',zh:'学生',emoji:'🧑‍🎓',group:'拼读词汇'},
-      {word:'study',zh:'学习',emoji:'📖',group:'拼读词汇'}
-    ]
+                            ]
   },
   {
     title: 'Yesterday and Today',
@@ -187,7 +141,7 @@ const go3Units = [
       {word:'rainy',zh:'下雨的',emoji:'🌧️',group:'教材核心'},
       {word:'cloudy',zh:'多云的',emoji:'☁️',group:'教材核心'},
       {word:'snowy',zh:'下雪的',emoji:'🌨️',group:'教材核心'},
-      {word:'breezy',zh:'微风的',emoji:'🍃',group:'教材核心'},
+      {word:'breezy',zh:'有微风的',emoji:'🍃',group:'教材核心'},
       {word:'stormy',zh:'有暴风雨的',emoji:'⛈️',group:'教材核心'},
       {word:'chilly',zh:'寒冷的',emoji:'🥶',group:'教材核心'},
       {word:'foggy',zh:'有雾的',emoji:'🌫️',group:'教材核心'},
@@ -199,11 +153,7 @@ const go3Units = [
       {word:'hospital',zh:'医院',emoji:'🏥',group:'教材核心'},
       {word:'library',zh:'图书馆',emoji:'📚',group:'教材核心'},
       {word:'airport',zh:'机场',emoji:'✈️',group:'教材核心'},
-      {word:'sky',zh:'天空',emoji:'🌌',group:'拼读词汇'},
-      {word:'skylark',zh:'云雀',emoji:'🐦',group:'拼读词汇'},
-      {word:'snowflake',zh:'雪花',emoji:'❄️',group:'拼读词汇'},
-      {word:'snake',zh:'蛇',emoji:'🐍',group:'拼读词汇'}
-    ]
+                            ]
   },
   {
     title: 'My Home',
@@ -219,8 +169,8 @@ const go3Units = [
       {word:'scooter',zh:'滑板车',emoji:'🛴',group:'教材核心'},
       {word:'unicycle',zh:'独轮车',emoji:'🚲',group:'教材核心'},
       {word:'sled',zh:'雪橇',emoji:'🛷',group:'教材核心'},
-      {word:'snowboard',zh:'滑雪板',emoji:'🏂',group:'教材核心'},
-      {word:'skis',zh:'滑雪板',emoji:'🎿',group:'教材核心'},
+      {word:'snowboard',zh:'单板滑雪板',emoji:'🏂',group:'教材核心'},
+      {word:'skis',zh:'双板滑雪板',emoji:'🎿',group:'教材核心'},
       {word:'in-line skates',zh:'直排轮滑鞋',emoji:'🛼',group:'教材核心'},
       {word:'ice skates',zh:'冰鞋',emoji:'⛸️',group:'教材核心'},
       {word:'eat breakfast',zh:'吃早餐',emoji:'🥣',group:'教材核心'},
@@ -229,9 +179,6 @@ const go3Units = [
       {word:'talk on the phone',zh:'打电话',emoji:'📞',group:'教材核心'},
       {word:'play a video game',zh:'玩电子游戏',emoji:'🎮',group:'教材核心'},
       {word:'ride a bike',zh:'骑自行车',emoji:'🚴',group:'教材核心'},
-      {word:'small',zh:'小的',emoji:'🐜',group:'拼读词汇'},
-      {word:'smile',zh:'微笑',emoji:'😊',group:'拼读词汇'},
-      {word:'scary',zh:'吓人的',emoji:'👻',group:'拼读词汇'}
-    ]
+                      ]
   }
 ];

@@ -477,25 +477,39 @@ const goUnits=[{
         "group": "教材核心"
     },
     {
-        "word": "in",
-        "zh": "在里面",
-        "group": "教材核心"
+        "word": "sunny",
+        "zh": "晴朗的",
+        "group": "教材核心",
+        "emoji": "☀️"
     },
     {
-        "word": "on",
-        "zh": "在上面",
-        "group": "教材核心"
+        "word": "rainy",
+        "zh": "下雨的",
+        "group": "教材核心",
+        "emoji": "🌧️"
     },
     {
-        "word": "under",
-        "zh": "在下面",
-        "group": "教材核心"
+        "word": "windy",
+        "zh": "有风的",
+        "group": "教材核心",
+        "emoji": "💨"
     },
     {
-        "word": "by",
-        "zh": "在旁边",
-        "group": "教材核心"
+        "word": "cloudy",
+        "zh": "多云的",
+        "group": "教材核心",
+        "emoji": "☁️"
     },
+    {
+        "word": "snowy",
+        "zh": "下雪的",
+        "group": "教材核心",
+        "emoji": "❄️"
+    },
+    
+    
+    
+    
     {
         "word": "igloo",
         "zh": "冰屋",
@@ -2233,20 +2247,24 @@ const go2Units=[{
         "group": "教材核心"
     },
     {
-        "word": "next to",
-        "zh": "在旁边",
-        "group": "教材核心"
+        "word": "make the bed",
+        "zh": "整理床铺",
+        "group": "教材核心",
+        "emoji": "🛏️"
     },
     {
-        "word": "in front of",
-        "zh": "在前面",
-        "group": "教材核心"
+        "word": "clean the room",
+        "zh": "打扫房间",
+        "group": "教材核心",
+        "emoji": "🧹"
     },
     {
-        "word": "behind",
-        "zh": "在后面",
-        "group": "教材核心"
-    }]
+        "word": "wash the dishes",
+        "zh": "洗碗",
+        "group": "教材核心",
+        "emoji": "🍽️"
+    }
+    ]
 }, {
     "title": "Routines",
     "zh": "日常生活",
@@ -2386,7 +2404,7 @@ const go2Units=[{
 }];
 let book="go",units=goUnits;
 let unit=0,data=[];
-const photoAliases={'sing-a-song':'sing',singing:'sing',swimming:'swim',dancing:'dance',reading:'read',cooking:'cook',painting:'paint',running:'run','take-a-bath':'bathtub',watch:'watch-tv'};
+const photoAliases={'sing-a-song':'sing',singing:'sing',swimming:'swim',dancing:'dance',reading:'read',cooking:'cook',painting:'paint',running:'run','take-a-bath':'bathtub',watch:'watch-tv','a-vest':'vest','the-moon':'moon','a-blouse':'blouse','went-shopping':'go-shopping','went-swimming':'go-swimming','went-for-a-swim':'go-swimming','went-bowling':'go-bowling','watching-dvds':'watch-dvds','taking-pictures':'take-pictures','surfing-the-internet':'surf-the-internet','play-a-video-game':'play-video-games','ride-a-bike':'ride-a-bicycle','learn-how-to-ride-a-bike':'ride-a-bicycle','planting-flowers':'plant-flowers','played-soccer':'play-soccer','done-his-homework':'do-homework','went-for-a-bike-ride':'ride-a-bicycle','riding-her-bicycle':'ride-a-bicycle','talking-on-the-phone':'talk-on-the-phone'};
 function bindImageFallbacks(root){
     root.querySelectorAll('img[data-emoji]').forEach(img=>{
         img.addEventListener('error',()=>{
@@ -2662,6 +2680,9 @@ function render(){
         'oval'];
         pool=pool.filter(x=>shapeWords.includes(x.word)===shapeWords.includes(q.word));
     }
+    const sameImage=x=>imagePath(x.word)===imagePath(q.word)||(q.emoji&&x.emoji===q.emoji);
+    const distinctPool=pool.filter(x=>!sameImage(x));
+    if(distinctPool.length>=3)pool=distinctPool;
     currentOptions=shuffle([q,...shuffle(pool).slice(0,3)]);
     displayOptions();
 }
@@ -2787,7 +2808,7 @@ $('listen').onclick=speak;
 
 $('words').onclick=()=>{
     $('list').classList.toggle('hidden');
-    $('list').innerHTML=data.map(x=>`<div class="word"><img src="${imagePath(x.word)}" data-emoji="${x.emoji||"\u{1F524}"}" alt="${x.word}" loading="lazy" decoding="async"><strong>${x.word}</strong><small>${x.zh}</small><em>${bi(x.group,x.group==='教材核心'?'Core vocabulary':'Phonics vocabulary')}</em></div>`).join('')
+    $('list').innerHTML=data.map(x=>`<div class="word"><img src="${imagePath(x.word)}" data-emoji="${x.emoji||"\u{1F524}"}" alt="${x.word}" loading="lazy" decoding="async"><strong>${x.word}</strong><small>${x.zh}</small><em>${bi(x.group,x.group==='教材核心'||x.group==='教材词汇'?'Core vocabulary':x.group==='构词学习'?'Word study':'Phonics vocabulary')}</em></div>`).join('')
     bindImageFallbacks($('list'));
 };
 function switchBook(b){
