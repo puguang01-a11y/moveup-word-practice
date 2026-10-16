@@ -477,25 +477,39 @@ const goUnits=[{
         "group": "教材核心"
     },
     {
-        "word": "in",
-        "zh": "在里面",
-        "group": "教材核心"
+        "word": "sunny",
+        "zh": "晴朗的",
+        "group": "教材核心",
+        "emoji": "☀️"
     },
     {
-        "word": "on",
-        "zh": "在上面",
-        "group": "教材核心"
+        "word": "rainy",
+        "zh": "下雨的",
+        "group": "教材核心",
+        "emoji": "🌧️"
     },
     {
-        "word": "under",
-        "zh": "在下面",
-        "group": "教材核心"
+        "word": "windy",
+        "zh": "有风的",
+        "group": "教材核心",
+        "emoji": "💨"
     },
     {
-        "word": "by",
-        "zh": "在旁边",
-        "group": "教材核心"
+        "word": "cloudy",
+        "zh": "多云的",
+        "group": "教材核心",
+        "emoji": "☁️"
     },
+    {
+        "word": "snowy",
+        "zh": "下雪的",
+        "group": "教材核心",
+        "emoji": "❄️"
+    },
+    
+    
+    
+    
     {
         "word": "igloo",
         "zh": "冰屋",
@@ -2233,20 +2247,24 @@ const go2Units=[{
         "group": "教材核心"
     },
     {
-        "word": "next to",
-        "zh": "在旁边",
-        "group": "教材核心"
+        "word": "make the bed",
+        "zh": "整理床铺",
+        "group": "教材核心",
+        "emoji": "🛏️"
     },
     {
-        "word": "in front of",
-        "zh": "在前面",
-        "group": "教材核心"
+        "word": "clean the room",
+        "zh": "打扫房间",
+        "group": "教材核心",
+        "emoji": "🧹"
     },
     {
-        "word": "behind",
-        "zh": "在后面",
-        "group": "教材核心"
-    }]
+        "word": "wash the dishes",
+        "zh": "洗碗",
+        "group": "教材核心",
+        "emoji": "🍽️"
+    }
+    ]
 }, {
     "title": "Routines",
     "zh": "日常生活",
@@ -2386,12 +2404,22 @@ const go2Units=[{
 }];
 let book="go",units=goUnits;
 let unit=0,data=[];
-const photoWords=new Set(['pencil','pen','bag','book','eraser','alligator','ant','apple','ball','banana','bear','bat','bathtub','bed','bicycle','bird','board','bread','cake','calculator','calendar','camera','car','cat','chair','cheese','chicken','clock','cloud','coin','comb','computer','cookie','cow','crayon','dinosaur','dog','door','duck','egg','elephant','fan','fish','flower','frog','giraffe','girl','globe','goat','grapes','hat','horse','house','ice-cream','igloo','iguana','ink','jam','jeans','jet','juice','kangaroo','key','kitten','ladybug','lamb','lamp','lemon','lion','lunch-box','map','marker','milk','milkshake','monkey','moon','nest','notebook','nut','octopus','omelet','ostrich','pancake','panda','paper-clip','pasta','peach','pear','pencil-case','pencil-sharpener','pizza','popcorn','puzzle','quilt','rabbit','radio','refrigerator','rice','robot','rocket','ruler','salad','sandwich','seesaw','sofa','steak','stew','stove','sun','table','tea','teapot','teddy-bear','telephone','tiger','train','tree','bib','baseball','box','candy','candy-bar','cell-phone','cereal','cd','desk','firefighters','doll','at-home','at-the-library','at-school','at-the-park','at-the-store','at-the-zoo','fox','volcano','zebra','violin','jump-rope','kite','yo-yo','umbrella','sister','brother','grandfather','grandmother','father','mother','do-homework','eat-breakfast','wash-my-face','brush-my-teeth','fly-a-kite','ride-a-bicycle','dentist','police-officer','doctor','farm','vest','zipper','tv','gorilla','soda','video-game']);
-const photoAliases={bears:'bear',birds:'bird',calendars:'calendar',cats:'cat',cds:'cd','cell-phones':'cell-phone',clocks:'clock',clouds:'cloud',computers:'computer',cows:'cow',crayons:'crayon',dogs:'dog',doors:'door',ducks:'duck',elephants:'elephant',flowers:'flower',frogs:'frog'};
+const photoAliases={'sing-a-song':'sing',singing:'sing',swimming:'swim',dancing:'dance',reading:'read',cooking:'cook',painting:'paint',running:'run','take-a-bath':'bathtub',watch:'watch-tv','a-vest':'vest','the-moon':'moon','a-blouse':'blouse','went-shopping':'go-shopping','went-swimming':'go-swimming','went-for-a-swim':'go-swimming','went-bowling':'go-bowling','watching-dvds':'watch-dvds','taking-pictures':'take-pictures','surfing-the-internet':'surf-the-internet','play-a-video-game':'play-video-games','ride-a-bike':'ride-a-bicycle','learn-how-to-ride-a-bike':'ride-a-bicycle','planting-flowers':'plant-flowers','played-soccer':'play-soccer','done-his-homework':'do-homework','went-for-a-bike-ride':'ride-a-bicycle','riding-her-bicycle':'ride-a-bicycle','talking-on-the-phone':'talk-on-the-phone'};
+function bindImageFallbacks(root){
+    root.querySelectorAll('img[data-emoji]').forEach(img=>{
+        img.addEventListener('error',()=>{
+            const fallback=document.createElement('span');
+            fallback.className='emoji-fallback';
+            fallback.setAttribute('aria-hidden','true');
+            fallback.textContent=img.dataset.emoji||'\u{1F524}';
+            img.replaceWith(fallback);
+        },{once:true});
+    });
+}
 function imagePath(word){
     const slug=word.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     const imageSlug=photoAliases[slug]||slug;
-    return 'assets/words/'+imageSlug+(photoWords.has(imageSlug)?'.webp':'.svg')
+    return 'assets/words/'+imageSlug+'.webp'
 }
 function practiceQuestionCount(){
     return Math.min(16,data.length)
@@ -2466,6 +2494,7 @@ function shuffle(a){
     return b
 }
 let mode,questions=[],at=0,score=0,answers=[],locked=false,heard=false,selectedId=null;
+let feedbackTimer=null,currentOptions=[];
 function show(id){
     for(const n of ['home',
     'quiz',
@@ -2473,12 +2502,18 @@ function show(id){
     n!==id)
 }
 function home(){
-    $('bookCaption').textContent=book==='go'?'LET’S GO 1 · FIFTH EDITION':book==='begin'?'LET’S BEGIN 1 · FIFTH EDITION':book==='begin2'?'LET’S BEGIN 2 · FIFTH EDITION':'LET’S GO 2 · FIFTH EDITION';
-    $('bookDescription').innerHTML=book==='go'?bi('Let’s Go 1 · 全册八个单元','Let’s Go 1 · 8 units'):book==='begin'?bi('Let’s Begin 1 · 五组字母词汇','Let’s Begin 1 · 5 word groups'):book==='begin2'?bi('Let’s Begin 2 · 全册八个单元','Let’s Begin 2 · 8 units'):bi('Let’s Go 2 · 全册八个单元','Let’s Go 2 · 8 units');
+    clearTimeout(feedbackTimer);
+    feedbackTimer=null;
+    if(book==='go6') $('bookCaption').textContent='LET\u2019S GO 6 \u00b7 FIFTH EDITION'; else if(book==='go5') $('bookCaption').textContent='LET\u2019S GO 5 \u00b7 FIFTH EDITION'; else if(book==='go4') $('bookCaption').textContent='LET\u2019S GO 4 \u00b7 FIFTH EDITION'; else $('bookCaption').textContent=book==='go3'?'LET\u2019S GO 3 \u00b7 FIFTH EDITION':book==='go'?'LET’S GO 1 · FIFTH EDITION':book==='begin'?'LET’S BEGIN 1 · FIFTH EDITION':book==='begin2'?'LET’S BEGIN 2 · FIFTH EDITION':'LET’S GO 2 · FIFTH EDITION';
+    if(book==='go6') $('bookDescription').innerHTML=bi('Let\u2019s Go 6 \u00b7 \u5168\u518c\u516b\u4e2a\u5355\u5143','Let\u2019s Go 6 \u00b7 8 units'); else if(book==='go5') $('bookDescription').innerHTML=bi('Let\u2019s Go 5 \u00b7 \u5168\u518c\u516b\u4e2a\u5355\u5143','Let\u2019s Go 5 \u00b7 8 units'); else if(book==='go4') $('bookDescription').innerHTML=bi('Let\u2019s Go 4 \u00b7 \u5168\u518c\u516b\u4e2a\u5355\u5143','Let\u2019s Go 4 \u00b7 8 units'); else $('bookDescription').innerHTML=book==='go3'?bi('Let\u2019s Go 3 \u00b7 \u5168\u518c\u516b\u4e2a\u5355\u5143','Let\u2019s Go 3 \u00b7 8 units'):book==='go'?bi('Let’s Go 1 · 全册八个单元','Let’s Go 1 · 8 units'):book==='begin'?bi('Let’s Begin 1 · 五组字母词汇','Let’s Begin 1 · 5 word groups'):book==='begin2'?bi('Let’s Begin 2 · 全册八个单元','Let’s Begin 2 · 8 units'):bi('Let’s Go 2 · 全册八个单元','Let’s Go 2 · 8 units');
     $('goBook').classList.toggle('secondary',
     book!=='go');
     $('go2Book').classList.toggle('secondary',
     book!=='go2');
+    $('go3Book').classList.toggle('secondary',book!=='go3');
+    $('go4Book').classList.toggle('secondary',book!=='go4');
+    $('go5Book').classList.toggle('secondary',book!=='go5');
+    $('go6Book').classList.toggle('secondary',book!=='go6');
     $('beginBook').classList.toggle('secondary',
     book!=='begin');
     $('begin2Book').classList.toggle('secondary',
@@ -2487,20 +2522,22 @@ function home(){
     show('home');
     $('count').textContent=state.seen.length+'/'+data.length;
     $('bar').style.width=state.seen.length/data.length*100+'%';
-    $('status').innerHTML=state.passed?bi('🏅 已通关','Unit passed'):state.unlocked?bi('✓ 可挑战','Challenge unlocked'):bi('学习中','In progress');
+    $('status').innerHTML=state.passed?bi('🏅 已通关','Unit check passed'):state.unlocked?bi('✓ 可挑战','Unit check unlocked'):bi('学习中','In progress');
     $('challenge').disabled=!state.unlocked;
     const practiceCount=practiceQuestionCount(),challengeCount=challengeQuestionCount();
     const wordsLeft=data.length-state.seen.length;
     const allWordsPracticed=wordsLeft===0;
-    $('challenge').innerHTML=state.unlocked?bi('开始通关挑战 · '+challengeCount+'题 →','Start '+challengeCount+'-question challenge →'):bi('🔒 还需练习'+wordsLeft+'个词','Practice '+wordsLeft+' more words to unlock');
+    const sectionName=book==='begin'?'\u5b57\u6bcd\u7ec4':'\u5355\u5143';
+    const sectionNameEn=book==='begin'?'group':'unit';
+    $('challenge').innerHTML=state.unlocked?bi('\u5f00\u59cb'+sectionName+'\u6d4b\u9a8c \u00b7 '+challengeCount+'\u9879 \u2192','Start '+sectionNameEn+' check - '+challengeCount+' items ->'):bi('\u{1F512} \u8fd8\u9700\u7ec3\u4e60'+wordsLeft+'\u4e2a\u8bcd\u6c47\u9879','Practice '+wordsLeft+' more vocabulary items to unlock');
     $('review').disabled=!state.missed.length;
-    $('review').innerHTML=bi('复习错词 · '+state.missed.length,'Review missed words · '+state.missed.length);
-    $('practice').innerHTML=!allWordsPracticed?bi('继续练习 · '+practiceCount+'题','Continue practice · '+practiceCount+' questions'):bi('再练一轮 · '+practiceCount+'题','Practice again · '+practiceCount+' questions');
-    $('practiceInstructions').innerHTML=state.unlocked?bi('本单元所有词都已练习过。现在可以挑战'+challengeCount+'题测试；全部答对即可通关。','You have practiced every word in this unit. Take the '+challengeCount+'-question challenge; get them all right to pass.'):bi('先练习本单元的每个词，再解锁'+challengeCount+'题通关测试。还剩'+wordsLeft+'个词。','Practice every word in this unit to unlock the '+challengeCount+'-question challenge. '+wordsLeft+' words remain.');
+    $('review').innerHTML=bi('\u590d\u4e60\u6613\u9519\u8bcd \u00b7 '+state.missed.length,'Review missed words - '+state.missed.length);
+    $('practice').innerHTML=!allWordsPracticed?bi('\u7ee7\u7eed\u7ec3\u4e60 \u00b7 '+practiceCount+'\u9879','Continue practice - '+practiceCount+' items'):bi('\u518d\u7ec3\u4e00\u8f6e \u00b7 '+practiceCount+'\u9879','Practice again - '+practiceCount+' items');
+    $('practiceInstructions').innerHTML=state.unlocked?bi('\u672c'+sectionName+'\u7684\u8bcd\u6c47\u90fd\u5df2\u7ec3\u4e60\u8fc7\u3002\u73b0\u5728\u53ef\u4ee5\u53c2\u52a0'+challengeCount+'\u9879\u6d4b\u9a8c\uff1b\u5168\u90e8\u7b54\u5bf9\u5373\u53ef\u901a\u8fc7\u3002','You have practiced all the vocabulary in this '+sectionNameEn+'. Take the '+challengeCount+'-item check; get every item right to pass.'):bi('\u7ec3\u4e60\u672c'+sectionName+'\u7684\u6bcf\u4e2a\u8bcd\u6c47\u9879\uff0c\u5373\u53ef\u89e3\u9501'+challengeCount+'\u9879\u6d4b\u9a8c\u3002\u8fd8\u5269'+wordsLeft+'\u9879\u3002','Practice every vocabulary item in this '+sectionNameEn+' to unlock the '+challengeCount+'-item check. '+wordsLeft+' items remain.');
     const unitLabel=(book==='begin'?'Group ':'Unit ')+(unit+1);
     $('unitTitle').innerHTML=bi(unitLabel+' · '+units[unit].zh,unitLabel+' · '+units[unit].title);
     $('heroTitle').innerHTML=units[unit].title+'<span class="en-translation">'+units[unit].zh+'</span>';
-    $('badge').innerHTML=bi('🐝 '+data.length+'个教材词','🐝 '+data.length+' textbook words');
+    $('badge').innerHTML=bi('🐝 '+data.length+'个教材词','🐝 '+data.length+' textbook vocabulary items');
     const bookUnits=units.map((u,i)=>({
         unit:u,
         saved:all[book==='go'?i:book+'-'+i]||fresh()
@@ -2514,14 +2551,14 @@ function home(){
         result.wordTotal+=item.unit.words.length;
         return result
     },{words:0,missed:0,passed:0,wordTotal:0});
-    $('bookDashboard').innerHTML=`<div class="stat"><span>已完成单元<span class="en-translation">Units passed</span></span><strong>${totals.passed} / ${units.length}</strong></div><div class="stat"><span>全书已练词汇<span class="en-translation">Words practiced in this book</span></span><strong>${totals.words} / ${totals.wordTotal}</strong></div><div class="stat"><span>待复习错词<span class="en-translation">Words to review</span></span><strong>${totals.missed}</strong></div>`;
+    $('bookDashboard').innerHTML=`<div class="stat"><span>已完成单元<span class="en-translation">Units passed</span></span><strong>${totals.passed} / ${units.length}</strong></div><div class="stat"><span>全书已练词汇<span class="en-translation">Vocabulary items practiced in this book</span></span><strong>${totals.words} / ${totals.wordTotal}</strong></div><div class="stat"><span>待复习错词<span class="en-translation">Vocabulary items to review</span></span><strong>${totals.missed}</strong></div>`;
     $('list').classList.add('hidden');
     $('unitNav').innerHTML=units.map((u,
     i)=>`<button class="unitBtn ${i===unit?'active':''}" data-unit="${i}"><small>${book==='begin'?'GROUP':'UNIT'} ${i+1} ${all[book==='go'?i:book+'-'+i]?.passed?'🏅':''}</small><strong>${u.zh}</strong><span>${u.title}</span></button>`).join('');
     document.querySelectorAll('.unitBtn').forEach(b=>b.onclick=()=>select(+b.dataset.unit));
-    const note=book==='go2'?'词汇与短语来自本单元核心词表。':book==='begin2'?'教材核心词与本单元拼读词分别标注。':book==='begin'?'按教材五组字母组织常用词汇；不含人物名字。':(unit===3?'含14个核心词 + apple、cat 两个本单元拼读词。':unit===5?'含12个核心词 + igloo、bib、big、pit 四个本单元拼读词。':'单复数分别练习；只使用本单元教材词。');
-    const coverageNote=data.length<=16?'本单元有'+data.length+'个词；本轮每个词都会练习一次。':'本单元有'+data.length+'个词；每轮练习16题，优先练习未练过和待复习的词。';
-    const coverageNoteEn=data.length<=16?'This unit has '+data.length+' words. You will practice each word once per round.':'This unit has '+data.length+' words. Each 16-question round prioritizes unseen and missed words.';
+    const note=book==='go6'?'\u6309Let\u2019s Go 6\u6559\u6750\u5355\u5143\u548c\u62fc\u8bfb\u8bcd\u6c47\u6574\u7406\u3002':book==='go5'?'\u6309Let\u2019s Go 5\u6559\u6750\u5355\u5143\u548c\u62fc\u8bfb\u8bcd\u6c47\u6574\u7406\u3002':book==='go4'?'\u6309Let\u2019s Go 4\u6559\u6750\u5355\u5143\u548c\u62fc\u8bfb\u8bcd\u6c47\u6574\u7406\u3002':book==='go3'?'\u6309Let\u2019s Go 3\u6559\u6750\u5355\u5143\u6574\u7406\u8bcd\u6c47\u3002':book==='go2'?'词汇与短语来自本单元核心词表。':book==='begin2'?'教材核心词与本单元拼读词分别标注。':book==='begin'?'按教材五组字母组织常用词汇；不含人物名字。':(unit===3?'含14个核心词 + apple、cat 两个本单元拼读词。':unit===5?'含12个核心词 + igloo、bib、big、pit 四个本单元拼读词。':'单复数分别练习；只使用本单元教材词。');
+    const coverageNote=data.length<=16?'\u672c\u5355\u5143\u6709'+data.length+'\u4e2a\u8bcd\u6c47\u9879\uff1b\u672c\u8f6e\u6bcf\u9879\u7ec3\u4e60\u4e00\u6b21\u3002':'\u672c\u5355\u5143\u6709'+data.length+'\u4e2a\u8bcd\u6c47\u9879\uff1b\u6bcf\u8f6e\u7ec3\u4e6016\u9879\uff0c\u4f18\u5148\u7ec3\u4e60\u672a\u7ec3\u8fc7\u548c\u5f85\u590d\u4e60\u7684\u8bcd\u3002';
+    const coverageNoteEn=data.length<=16?'This unit has '+data.length+' vocabulary items. You will practice each one once per round.':'This unit has '+data.length+' vocabulary items. Each 16-item round prioritizes unseen and missed words.';
     $('note').innerHTML=note+' '+coverageNote+'<span class="en-translation">'+coverageNoteEn+'. Progress is saved in this browser'+(memoryOnly?' for this session only.':'.')+'</span>';
 }
 function start(m){
@@ -2560,7 +2597,7 @@ function speak(){
     speechSynthesis.cancel();
     let u=new SpeechSynthesisUtterance(questions[at].word);
     u.lang='en-US';
-    u.rate=Number($('speechRate').value)||.85;
+    u.rate=Number($('speechRate').value)||1;
     u.voice=speechSynthesis.getVoices().find(v=>v.lang==='en-US')||speechSynthesis.getVoices().find(v=>v.lang.startsWith('en'))||null;
     u.onstart=()=>{
         $('toast').textContent='';
@@ -2574,23 +2611,25 @@ function speak(){
     speechSynthesis.speak(u)
 }
 function render(){
+    clearTimeout(feedbackTimer);
+    feedbackTimer=null;
+    currentOptions=[];
     locked=false;
     heard=false;
     selectedId=null;
     $('listen').disabled=false;
     $('listen').innerHTML=bi('▶ 点击听单词','Play word');
-    $('submit').disabled=true;
     $('spokenWord').innerHTML='';
     $('spokenWord').classList.add('hidden');
-    $('next').disabled=true;
+    $('feedback').classList.remove('correct-feedback','retry-feedback');
     $('feedback').textContent='';
     $('toast').innerHTML=bi('请先点击听单词，再选择图片','Play the word, then choose a picture.');
     const unitType=book==='begin'?'Group ':'Unit ';
-    const modeZh=mode==='test'?'通关挑战':mode==='review'?'错词复习':'日常练习';
-    const modeEn=mode==='test'?'Challenge':mode==='review'?'Missed word review':'Practice';
+    const modeZh=mode==='test'?'\u5355\u5143\u6d4b\u9a8c':mode==='review'?'\u6613\u9519\u8bcd\u590d\u4e60':'\u8bcd\u6c47\u7ec3\u4e60';
+    const modeEn=mode==='test'?'Unit check':mode==='review'?'Missed word review':'Vocabulary practice';
     $('step').innerHTML=bi(unitType+(unit+1)+' · '+modeZh+' · '+(at+1)+'/'+questions.length,modeEn+' · '+(at+1)+'/'+questions.length);
     $('qbar').style.width=at/questions.length*100+'%';
-    $('prompt').innerHTML=mode==='test'?bi('听一听，'+questions.length+'题全对即可通关','Listen and answer all '+questions.length+' correctly to pass.'):mode==='review'?bi('复习这些还不熟悉的词','Review the words you missed.'):bi('听单词，选择对应图片后提交','Listen, select a picture, then submit.');
+    $('prompt').innerHTML=mode==='test'?bi('\u542c\u5355\u8bcd\u5e76\u9009\u62e9\u56fe\u7247\uff1b'+questions.length+'\u9879\u5168\u90e8\u7b54\u5bf9\u5373\u53ef\u901a\u8fc7\u3002','Listen and choose a picture for each word. Get all '+questions.length+' items right to pass.'):mode==='review'?bi('\u590d\u4e60\u66fe\u7ecf\u7b54\u9519\u7684\u8bcd\uff1b\u7b54\u5bf9\u540e\u4f1a\u4ece\u590d\u4e60\u5217\u8868\u4e2d\u79fb\u9664\u3002','Review words you previously missed. Get one right to remove it from this list.'):bi('\u542c\u5355\u8bcd\u5e76\u9009\u62e9\u5bf9\u5e94\u56fe\u7247\u3002\u7b54\u9519\u7684\u8bcd\u4f1a\u52a0\u5165\u590d\u4e60\u5217\u8868\u3002','Listen to each word and choose its picture. Missed words are saved for review.')
     const q=questions[at];
     let pool=data.filter(x=>x.id!==q.id);
     if((book==='go'&&unit===1)||(book==='begin2'&&unit===1)){
@@ -2641,14 +2680,18 @@ function render(){
         'oval'];
         pool=pool.filter(x=>shapeWords.includes(x.word)===shapeWords.includes(q.word));
     }
-    const options=shuffle([q,
-    ...shuffle(pool).slice(0,
-    3)]);
-    $('options').innerHTML=options.map((o,
-    i)=>`<button class="card" data-id="${o.id}" aria-pressed="false" aria-label="Picture option ${String.fromCharCode(65+i)}" disabled><span class="letter">${String.fromCharCode(65+i)}</span><img src="${imagePath(o.word)}" alt="" decoding="async"></button>`).join('');
-    document.querySelectorAll('.card').forEach(b=>b.onclick=()=>selectAnswer(+b.dataset.id));
-    $('next').innerHTML=at===questions.length-1?bi('查看结果 →','See results →'):bi('下一题 →','Next question →')
+    const sameImage=x=>imagePath(x.word)===imagePath(q.word)||(q.emoji&&x.emoji===q.emoji);
+    const distinctPool=pool.filter(x=>!sameImage(x));
+    if(distinctPool.length>=3)pool=distinctPool;
+    currentOptions=shuffle([q,...shuffle(pool).slice(0,3)]);
+    displayOptions();
 }
+function displayOptions(){
+    $('options').innerHTML=currentOptions.map((o,i)=>`<button class="card" data-id="${o.id}" aria-pressed="false" aria-label="Picture option ${String.fromCharCode(65+i)}" ${heard&&!locked?'':'disabled'}><span class="letter">${String.fromCharCode(65+i)}</span><img src="${imagePath(o.word)}" data-emoji="${o.emoji||"\u{1F524}"}" alt="" decoding="async"></button>`).join('');
+    bindImageFallbacks($('options'));
+    document.querySelectorAll('.card').forEach(b=>b.onclick=()=>selectAnswer(+b.dataset.id));
+}
+
 function selectAnswer(id){
     if(locked||!heard)return;
     selectedId=id;
@@ -2657,43 +2700,79 @@ function selectAnswer(id){
         b.classList.toggle('selected',selected);
         b.setAttribute('aria-pressed',String(selected));
     });
-    $('toast').innerHTML=bi('已选择，请点击“提交答案”。','Choice selected. Press Submit answer.');
-    $('submit').disabled=false;
+    $('toast').textContent='';
+    checkAnswer()
 }
-function submitAnswer(){
+function checkAnswer(){
     if(locked||!heard||selectedId===null)return;
-    locked=true;
-    const q=questions[at],
-    id=selectedId,
-    ok=id===q.id;
-    score+=ok?1:0;
-    answers.push({
-        q,
-        ok
-    });
+    const q=questions[at];
+    const id=selectedId;
+    const ok=id===q.id;
+    const previous=answers.find(x=>x.q.id===q.id);
+    if(!previous){
+        answers.push({q,ok});
+        if(ok)score++
+    }
     if(mode==='practice'||mode==='review'){
         if(!state.seen.includes(q.id))state.seen.push(q.id)
     }
-    state.missed=ok?state.missed.filter(i=>i!==q.id):[...new Set([...state.missed,q.id])];
-    if(ok){
-        const remaining=(state.mistakes[q.id]||0)-1;
-        if(remaining>0)state.mistakes[q.id]=remaining;
-        else delete state.mistakes[q.id]
+    if(!ok){
+        state.missed=[...new Set([...state.missed,q.id])];
+        state.mistakes[q.id]=(state.mistakes[q.id]||0)+1;
+        save()
+    }else if(mode==='review'&&state.missed.includes(q.id)){
+        state.missed=state.missed.filter(i=>i!==q.id);
+        delete state.mistakes[q.id];
+        save()
+    }else if(mode==='practice'||mode==='review')save();
+    if(!ok){
+        locked=true;
+        document.querySelectorAll('.card').forEach(b=>{
+            b.disabled=true;
+            if(+b.dataset.id===id)b.classList.add('wrong')
+        });
+        $('feedback').classList.remove('correct-feedback');
+        $('feedback').classList.add('retry-feedback');
+        $('feedback').innerHTML=bi('\u7b54\u9519\u4e86\uff0c\u5df2\u52a0\u5165\u590d\u4e60\u5217\u8868\u3002','Not quite. Added to your review list.');
+        $('spokenWord').innerHTML=`<strong class="answerEnglish">${q.word}</strong><span class="answerChinese" lang="zh">${q.zh}</span>`;
+        $('spokenWord').classList.remove('hidden');
+        $('toast').innerHTML=bi('\u4e24\u79d2\u540e\u8fdb\u5165\u4e0b\u4e00\u9898\u2026\u2026','Next question in 2 seconds…');
+        feedbackTimer=setTimeout(()=>{
+            feedbackTimer=null;
+            advanceQuestion()
+        },2000);
+        return
     }
-    else state.mistakes[q.id]=(state.mistakes[q.id]||0)+1;
-    save();
+    locked=true;
     document.querySelectorAll('.card').forEach(b=>{
         b.disabled=true;
-        if(+b.dataset.id===q.id)b.classList.add('right');
-        if(+b.dataset.id===id&&!ok)b.classList.add('wrong');
+        b.classList.remove('wrong');
+        if(+b.dataset.id===q.id)b.classList.add('right')
     });
-    $('feedback').innerHTML=ok?bi('✓ 答对了！','Correct!'):bi('再记住这个词。正确答案如下：','Not quite. The correct answer is shown below.');
+    $('feedback').classList.remove('retry-feedback');
+    $('feedback').classList.add('correct-feedback');
+    $('feedback').innerHTML=bi('✓ 答对了！','Correct!');
     $('spokenWord').innerHTML=`<strong class="answerEnglish">${q.word}</strong><span class="answerChinese" lang="zh">${q.zh}</span>`;
     $('spokenWord').classList.remove('hidden');
-    $('submit').disabled=true;
-    $('next').disabled=false;
+    $('toast').innerHTML=bi('\u4e24\u79d2\u540e\u8fdb\u5165\u4e0b\u4e00\u9898\u2026\u2026','Next question in 2 seconds…');
+    feedbackTimer=setTimeout(()=>{
+        feedbackTimer=null;
+        advanceQuestion()
+    },2000)
+}
+function advanceQuestion(){
+    if(!locked)return;
+    clearTimeout(feedbackTimer);
+    feedbackTimer=null;
+    if(++at===questions.length)finish();
+    else{
+        window.speechSynthesis?.cancel();
+        render()
+    }
 }
 function finish(){
+    clearTimeout(feedbackTimer);
+    feedbackTimer=null;
     window.speechSynthesis?.cancel();
     if(mode==='practice'||mode==='review'){
         state.unlocked=Boolean(state.passed)||data.every(x=>state.seen.includes(x.id));
@@ -2707,15 +2786,15 @@ function finish(){
     }
     show('result');
     const wrong=answers.filter(x=>!x.ok);
-    const titleZh=passed?'恭喜，'+(book==='begin'?'Group ':'Unit ')+(unit+1)+' 通关！':mode==='test'?'再挑战一次，你可以的！':mode==='review'?'错词复习完成！':questions.length+'题练习完成！';
-    const titleEn=passed?'Congratulations! '+(book==='begin'?'Group ':'Unit ')+(unit+1)+' passed!':mode==='test'?'Try again. You can do it!':mode==='review'?'Missed word review complete!':'Practice complete!';
+    const titleZh=passed?'\u606d\u559c\uff0c\u901a\u8fc7'+(book==='begin'?'\u5b57\u6bcd\u7ec4':'\u5355\u5143')+(unit+1)+'\u6d4b\u9a8c\uff01':mode==='test'?'\u518d\u8bd5\u4e00\u6b21\uff0c\u4f60\u53ef\u4ee5\u7684\uff01':mode==='review'?'\u6613\u9519\u8bcd\u590d\u4e60\u5b8c\u6210\uff01':questions.length+'\u9879\u7ec3\u4e60\u5b8c\u6210\uff01';
+    const titleEn=passed?'Congratulations! '+(book==='begin'?'Group ':'Unit ')+(unit+1)+' check passed!':mode==='test'?'Try the unit check again.':mode==='review'?'Missed word review complete!':'Practice complete!';
     const remainingWords=data.length-state.seen.length;
-    const summaryZh=mode==='practice'?(state.unlocked?'本单元词汇已全部练习 · '+challengeQuestionCount()+'题通关挑战已解锁':'本轮完成。还需练习'+remainingWords+'个词才能解锁挑战。'):mode==='review'?'还需复习 '+state.missed.length+' 个错词。':passed?questions.length+'题全部答对，继续保持！':'需要'+questions.length+'题全部答对才能通关。先复习下面的词吧。';
-    const summaryEn=mode==='practice'?(state.unlocked?'Every word in this unit has been practiced. The '+challengeQuestionCount()+'-question challenge is unlocked.':`Round complete. Practice ${remainingWords} more word${remainingWords===1?'':'s'} to unlock the challenge.`):mode==='review'?'Words still to review: '+state.missed.length+'.':passed?'All '+questions.length+' answers correct. Keep it up!':'Answer all '+questions.length+' correctly to pass. Review the words below.';
-    const retryZh=mode==='practice'?(state.unlocked?'开始'+challengeQuestionCount()+'题挑战':'继续练习'):mode==='review'?'再复习一轮':'再次挑战';
-    const retryEn=mode==='practice'?(state.unlocked?'Start challenge':'Continue practice'):mode==='review'?'Review again':'Try challenge again';
+    const summaryZh=mode==='practice'?(state.unlocked?'\u672c\u5355\u5143\u8bcd\u6c47\u5df2\u5168\u90e8\u7ec3\u4e60\uff1b'+challengeQuestionCount()+'\u9879\u6d4b\u9a8c\u5df2\u89e3\u9501\u3002':'\u672c\u8f6e\u5b8c\u6210\u3002\u8fd8\u9700\u7ec3\u4e60'+remainingWords+'\u4e2a\u8bcd\u6c47\u9879\u624d\u80fd\u89e3\u9501\u6d4b\u9a8c\u3002'):mode==='review'?'\u8fd8\u6709 '+state.missed.length+' \u4e2a\u8bcd\u6c47\u9879\u5f85\u590d\u4e60\u3002':passed?questions.length+'\u9879\u5168\u90e8\u7b54\u5bf9\uff0c\u7ee7\u7eed\u4fdd\u6301\uff01':'\u9700\u8981'+questions.length+'\u9879\u5168\u90e8\u7b54\u5bf9\u624d\u80fd\u901a\u8fc7\u6d4b\u9a8c\u3002\u53ef\u4ee5\u5148\u590d\u4e60\u6613\u9519\u8bcd\u3002';
+    const summaryEn=mode==='practice'?(state.unlocked?'Every vocabulary item in this unit has been practiced. The '+challengeQuestionCount()+'-item check is unlocked.':'Round complete. Practice '+remainingWords+' more vocabulary item'+(remainingWords===1?'':'s')+' to unlock the check.'):mode==='review'?'Vocabulary items still to review: '+state.missed.length+'.':passed?'All '+questions.length+' items correct. Keep it up!':'Get all '+questions.length+' items right to pass. Review missed words before trying again.';
+    const retryZh=mode==='practice'?(state.unlocked?'\u5f00\u59cb\u5355\u5143\u6d4b\u9a8c':'\u7ee7\u7eed\u7ec3\u4e60'):mode==='review'?'\u518d\u590d\u4e60\u4e00\u8f6e':'\u91cd\u505a\u5355\u5143\u6d4b\u9a8c';
+    const retryEn=mode==='practice'?(state.unlocked?'Start unit check':'Continue practice'):mode==='review'?'Review again':'Retake unit check';
     const nextUnitButton=passed&&unit<units.length-1?`<button class="secondary" id="nextUnit">${bi('下一个单元 →','Next unit →')}</button>`:'';
-    $('result').innerHTML=`<div style="font-size:52px">${passed?'🏅':mode==='test'?'🐝':'🌟'}</div><h1>${bi(titleZh,titleEn)}</h1><h2>${score} / ${questions.length}</h2><p>${bi(summaryZh,summaryEn)}</p>${wrong.length?'<p>'+bi('本轮需要复习：','Review these words:')+' '+wrong.map(x=>x.q.word+'（'+x.q.zh+'）').join('、')+'</p>':'<p>'+bi('这一轮全部正确！','All answers correct this round!')+'</p>'}<div class="actions" style="justify-content:center"><button id="retry">${bi(retryZh,retryEn)}</button><button class="secondary" id="return">${bi('返回单元','Back to unit')}</button>${nextUnitButton}</div>`;
+    $('result').innerHTML=`<div style="font-size:52px">${passed?'🏅':mode==='test'?'🐝':'🌟'}</div><h1>${bi(titleZh,titleEn)}</h1><h2>${score} / ${questions.length}</h2><p>${bi(summaryZh,summaryEn)}</p>${wrong.length?'<p>'+bi('本轮需要复习：','Review these missed vocabulary items:')+' '+wrong.map(x=>x.q.word+'（'+x.q.zh+'）').join('、')+'</p>':'<p>'+bi('这一轮全部正确！','All answers correct this round!')+'</p>'}<div class="actions" style="justify-content:center"><button id="retry">${bi(retryZh,retryEn)}</button><button class="secondary" id="return">${bi('返回单元','Back to unit')}</button>${nextUnitButton}</div>`;
     $('retry').onclick=()=>start(mode==='practice'?(state.unlocked?'test':'practice'):mode);
     $('return').onclick=home;
     if(passed&&unit<units.length-1)$('nextUnit').onclick=()=>select(unit+1);
@@ -2725,27 +2804,25 @@ $('challenge').onclick=()=>start('test');
 $('review').onclick=()=>start('review');
 $('back').onclick=home;
 $('listen').onclick=speak;
-$('submit').onclick=submitAnswer;
-$('next').onclick=()=>{
-    if(!locked)return;
-    if(++at===questions.length)finish();
-    else{
-        window.speechSynthesis?.cancel();
-        render()
-    }
-};
+
+
 $('words').onclick=()=>{
     $('list').classList.toggle('hidden');
-    $('list').innerHTML=data.map(x=>`<div class="word"><img src="${imagePath(x.word)}" alt="${x.word}" loading="lazy" decoding="async"><strong>${x.word}</strong><small>${x.zh}</small><em>${bi(x.group,x.group==='教材核心'?'Core vocabulary':'Phonics vocabulary')}</em></div>`).join('')
+    $('list').innerHTML=data.map(x=>`<div class="word"><img src="${imagePath(x.word)}" data-emoji="${x.emoji||"\u{1F524}"}" alt="${x.word}" loading="lazy" decoding="async"><strong>${x.word}</strong><small>${x.zh}</small><em>${bi(x.group,x.group==='教材核心'||x.group==='教材词汇'?'Core vocabulary':x.group==='构词学习'?'Word study':'Phonics vocabulary')}</em></div>`).join('')
+    bindImageFallbacks($('list'));
 };
 function switchBook(b){
     book=b;
-    units=b==='go'?goUnits:b==='begin'?beginUnits:b==='begin2'?begin2Units:go2Units;
+    units=b==='go6'?go6Units:b==='go5'?go5Units:b==='go4'?go4Units:b==='go3'?go3Units:b==='go'?goUnits:b==='begin'?beginUnits:b==='begin2'?begin2Units:go2Units;
     questions=[];
     select(0)
 }
 $('goBook').onclick=()=>switchBook('go');
 $('go2Book').onclick=()=>switchBook('go2');
+$('go3Book').onclick=()=>switchBook('go3');
+$('go4Book').onclick=()=>switchBook('go4');
+$('go5Book').onclick=()=>switchBook('go5');
+$('go6Book').onclick=()=>switchBook('go6');
 $('beginBook').onclick=()=>switchBook('begin');
 $('begin2Book').onclick=()=>switchBook('begin2');
 switchBook('go2');

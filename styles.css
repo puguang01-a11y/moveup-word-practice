@@ -4,7 +4,9 @@ body{
 margin:0;
 background:#fbf8ef;
 color:#20344b;
-font-family:system-ui,-apple-system,sans-serif}
+font-family:system-ui,-apple-system,sans-serif;
+cursor:default;
+caret-color:transparent}
 header{
 max-width:1100px;
 margin:auto;
@@ -99,6 +101,24 @@ cursor:not-allowed}
 button:focus-visible{
 outline:3px solid #e5b844;
 outline-offset:4px}
+.bookSelector{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:12px;
+margin:0 0 24px}
+.bookSelector button{
+width:100%;
+min-width:0;
+min-height:66px;
+padding:12px 14px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+line-height:1.25}
+.bookSelector .en-translation{
+display:block;
+margin:4px 0 0}
 .cards{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -123,6 +143,15 @@ display:block;
 width:100%;
 height:130px;
 object-fit:contain}
+.emoji-fallback{
+display:grid;
+place-items:center;
+width:100%;
+height:130px;
+border-radius:12px;
+background:linear-gradient(145deg,#fffdf8,#f4efe2);
+font-size:76px;
+line-height:1}
 .card.right{
 border-color:#55a67c;
 background:#eaf7ed}
@@ -174,11 +203,6 @@ font-size:28px}
 font-size:20px;
 font-weight:500;
 color:#68798b}
-.quizActions{
-display:flex;
-justify-content:center;
-gap:12px;
-flex-wrap:wrap}
 .dashboard{
 display:grid;
 grid-template-columns:repeat(3,minmax(0,1fr));
@@ -203,6 +227,10 @@ min-height:60px;
 text-align:center;
 font-size:19px;
 font-weight:600}
+.feedback.correct-feedback{
+color:#28734b}
+.feedback.retry-feedback{
+color:#b34e47}
 .wordlist{
 display:grid;
 grid-template-columns:repeat(5,1fr);
@@ -221,6 +249,11 @@ height:75px;
 max-width:100%;
 margin:0 auto 6px;
 object-fit:contain}
+.word .emoji-fallback{
+width:75px;
+height:75px;
+margin:0 auto 6px;
+font-size:48px}
 .word em{
 font-style:normal;
 font-size:10px;
@@ -239,6 +272,12 @@ color:#a24b35;
 font-size:13px;
 min-height:20px}
 @media(max-width:600px){
+.bookSelector{
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:9px}
+.bookSelector button{
+padding:11px 8px;
+font-size:14px}
 .hero{
 display:block}
 .badge{
@@ -300,6 +339,8 @@ padding:10px 6px}
 border-radius:18px}
 }
 @media(max-width:380px){
+.bookSelector{
+grid-template-columns:1fr}
 header strong{
 font-size:17px}
 .cards{
