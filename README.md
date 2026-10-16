@@ -17,3 +17,15 @@
 在 ChatGPT 中修改时，请明确要求“更新网站并同步 puguang01-a11y/moveup-word-practice”。同步前须先读取本仓库最新版本，保留工程师修改，存在冲突时通过分支或 PR 处理，不强制覆盖。
 
 工程师修改后，请通过提交或 PR 保存，并告知协作者。不要把密码、访问令牌或学生个人数据写进代码。
+
+Let’s Go 3 (Fifth Edition) is also available in the same listening and picture-choice activities.
+
+Let’s Go 4 (Fifth Edition) is also available in the same listening and picture-choice activities.
+
+Let’s Go 4 (Fifth Edition) is also available in the same listening and picture-choice activities.
+
+Let’s Go 5 (Fifth Edition) is also available in the same listening and picture-choice activities.
+
+Let’s Go 5 (Fifth Edition) is also available in the same listening and picture-choice activities.
+
+Let’s Go 6 (Fifth Edition) is also available in the same listening and picture-choice activities.
